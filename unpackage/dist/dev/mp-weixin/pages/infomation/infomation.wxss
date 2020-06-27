@@ -1,0 +1,14 @@
+
+page {
+	background-color: #f1f1f1
+}
+.face {
+	text-align: center;
+	padding-top: 60rpx;
+}
+.face image {
+	width: 150rpx;
+	height: 150rpx;
+	border-radius: 100%
+}
+

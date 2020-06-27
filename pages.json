@@ -1,0 +1,143 @@
+{
+	"pages": [ /*pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages*/		
+		
+		{
+			"path": "pages/category/category",
+			"style": {
+				"navigationBarTitleText": "验证登录"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "星星进销存系统登录"
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "用户注册"
+			}
+		}
+		,{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "星星进销存",
+				"enablePullDownRefresh": true
+			}
+		},{
+			"path": "pages/instorage/instorage",
+			"style": {
+				"navigationBarTitleText": "入库",
+				"enablePullDownRefresh": false
+			}
+		},{
+			"path": "pages/outstorage/outstorage",
+			"style": {
+				"navigationBarTitleText": "出库",
+				"enablePullDownRefresh": false
+			}
+		}
+		,{
+			"path": "pages/uchat/uchat",
+			"style": {
+				"navigationBarTitleText": "统计报表"
+			}
+		}, {
+			"path": "pages/ucenter/ucenter",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+			
+		}, {
+			"path": "pages/infomation/infomation",
+			"style": {
+				"navigationBarTitleText": "个人设置"
+			}
+			
+		}, 
+		{
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+			
+		}, {
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索",
+				"enablePullDownRefresh": true
+			}
+		}, {
+			"path": "pages/ucenter/about_us",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		}, {
+			"path": "pages/ucenter/help_u",
+			"style": {
+				"navigationBarTitleText": "帮助中心"
+			}
+		}, {
+			"path": "pages/ucenter/product",
+			"style": {
+				"navigationBarTitleText": "添加商品"
+			}
+		}, {
+			"path": "pages/ucenter/customer",
+			"style": {
+				"navigationBarTitleText": "添加客户"
+			}
+		}, {
+			"path": "pages/ucenter/supplier",
+			"style": {
+				"navigationBarTitleText": "添加供应商"
+			}
+		}, {
+			"path": "pages/index/supplierview",
+			"style": {
+				"navigationBarTitleText": "供应商列表"
+			}
+		}, {
+			"path": "pages/index/customerview",
+			"style": {
+				"navigationBarTitleText": "客户列表"
+			}
+		}	   
+
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "进销存",
+		"navigationBarBackgroundColor": "#66ccff"
+	},
+	"tabBar": {
+		"color":"#8a8a8a",
+		"selectedColor":"#66ccff",
+		"list":[
+			{
+				"pagePath":"pages/index/index",
+				"selectedIconPath":"static/tabBar/indexS.png",
+				"iconPath":"static/tabBar/index.png",
+				"text":"首页"
+			},{
+				"pagePath":"pages/search/search",
+				"selectedIconPath":"static/tabBar/searchS.png",
+				"iconPath":"static/tabBar/search.png",
+				"text":"订单"
+			},
+			 {
+			 	"pagePath":"pages/uchat/uchat",
+			 	"selectedIconPath":"static/tabBar/tubiaoS.png",
+			 	"iconPath":"static/tabBar/tubiao.png",
+			 	"text":"库存"
+			 },
+			{
+				"pagePath":"pages/ucenter/ucenter",
+				"selectedIconPath":"static/tabBar/ucenterS.png",
+				"iconPath":"static/tabBar/ucenter.png",
+				"text":"我的"
+			}
+		]
+	}
+}
