@@ -13,7 +13,8 @@
     "pages/search/search",
     "pages/ucenter/about_us",
     "pages/ucenter/help_u",
-    "pages/ucenter/product",
+    "pages/ucenter/dic",
+    "pages/ucenter/dic_detail",
     "pages/ucenter/customer",
     "pages/ucenter/supplier",
     "pages/index/supplierview",
@@ -56,5 +57,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap4.json"
+  "sitemapLocation": "sitemap1.json"
 }
