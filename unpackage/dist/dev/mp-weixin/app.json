@@ -14,6 +14,7 @@
     "pages/ucenter/about_us",
     "pages/ucenter/help_u",
     "pages/ucenter/product",
+    "pages/ucenter/product_detail",
     "pages/ucenter/dic",
     "pages/ucenter/dic_detail",
     "pages/ucenter/dic_detail_add_or_update",

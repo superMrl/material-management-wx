@@ -9,12 +9,12 @@
 				</view>
 				<view class="cu-form-group ">
 					<view class="title">分类名称:<text class="text-red">*</text></view>
-					<input placeholder="分类名称" name="name">{{name}}</input>					
+					<input placeholder="分类名称" :value="name"></input>	
 				</view>
 				
 				<view class="cu-form-group">
 					<view class="title">类型: <text class="text-red">*</text></view>
-					<picker @change="PickerChange2" :value="index2" :range="picker2" name="unit">
+					<picker @change="PickerChange2" :value="index2" :range="picker2">
 						<view class="picker">
 							{{index2>-1?picker2[index2]:'点击选择'}}
 						</view>
@@ -45,15 +45,19 @@
 				index2:-1,
 				picker2: ['物资分类','计量单位'],
 				id:'',
-				title:'新增'
-											
+				title:'新增',
+				unit:''							
 			}
 		},
-		onLoad(e) {	
-			if(e.id !== undefined){
-				this.id = e.id;
+		onLoad(options) {	
+			console.log(options)
+			console.log(options.item)
+			console.log(e.item.id === undefined)
+			if(e.item.id !== undefined){
+				this.id = e.item.id;
 				this.title = '修改'
 				this.getList();
+				console.log(this.name);
 				console.log(this.name);
 			}
 			//this.loadPicker();
@@ -150,7 +154,8 @@
 				// 	}
 				// });
 				debugger
-				this.name = "酒水"
+				this.name = "酒水";
+				this.index2 = 0
 				
 			}			
 		}

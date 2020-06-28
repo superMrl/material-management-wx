@@ -177,15 +177,19 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
       index2: -1,
       picker2: ['物资分类', '计量单位'],
       id: '',
-      title: '新增' };
-
+      title: '新增',
+      unit: '' };
 
   },
-  onLoad: function onLoad(e) {
-    if (e.id !== undefined) {
-      this.id = e.id;
+  onLoad: function onLoad(options) {
+    console.log(options);
+    console.log(options.item);
+    console.log(e.item.id === undefined);
+    if (e.item.id !== undefined) {
+      this.id = e.item.id;
       this.title = '修改';
       this.getList();
+      console.log(this.name);
       console.log(this.name);
     }
     //this.loadPicker();
@@ -283,6 +287,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
       // });
       debugger;
       this.name = "酒水";
+      this.index2 = 0;
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

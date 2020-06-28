@@ -82,6 +82,11 @@
                 "navigationBarTitleText": "物资信息维护"
             }
         }, {
+            "path": "pages/ucenter/product_detail",
+            "style": {
+                "navigationBarTitleText": "物资信息"
+            }
+        }, {
             "path": "pages/ucenter/dic",
             "style": {
                 "navigationBarTitleText": "字典信息维护"
