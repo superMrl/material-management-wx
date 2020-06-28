@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "基础数据",
+  "navigationBarTitleText": "字典信息维护",
   "usingComponents": {
     "mx-datepicker": "/components/mx-datepicker/mx-datepicker",
     "uni-calendar": "/components/uni-calendar/uni-calendar"

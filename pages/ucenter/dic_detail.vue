@@ -1,14 +1,16 @@
 <template>
     <view>
         <view class="cu-bar bg-white margin-top">
-            <view class="action">
+            <!-- <view class="action">
                 <text class="cuIcon-title text-orange "></text> 对话窗口
-            </view>
+            </view> -->
+			<navigator url="dic_detail_add_or_update">
             <view class="action">
-                <button class="cu-btn round bg-green shadow" @tap="showModal">新增</button>
+                <button class="cu-btn round bg-green shadow">新增</button>
             </view>
+			</navigator>
         </view>
-        <view class="cu-modal {{modalName=='1'?'show':''}}">
+       <!-- <view class="cu-modal {modalName=='1'?'show':''}">
             <view class="cu-dialog">
                 <view class="cu-bar round bg-white justify-end">
                     <view class="content">新增</view>
@@ -33,58 +35,71 @@
                     </view>
                 </view>
             </view>
-        </view>
+        </view> -->
         <scroll-view id="scroll" scroll-y="true" :style="{height:scrollHeight}">
             <view class="cu-list menu card-menu margin-top-sm">
-                <navigator v-for="(item,key) in list" :key="key" class="cu-item">
+				<view v-for="(item,key) in list" :key="id" class="cu-item">
+               
                     <view class="content padding-tb-sm">
                         <view>{{item.product_name}}</view>
                     </view>
                     <view class="action">
-                        <view class="cu-tag round bg-green" @tap="showModal">编辑</view>
+						 <navigator class="cu-tag round bg-green" :url="'dic_detail_add_or_update?id=' + item.id">
+							<view>编辑</view>
+						</navigator>
                         <view class="cu-tag round bg-red">删除</view>
                     </view>
-                </navigator>
+                
+				</view>
             </view>
         </scroll-view>
-
-
     </view>
 </template>
+
+
 
 <script>
     export default {
         data() {
             return {
-                modalName: '0',
                 scrollHeight: '',
                 list: [{
-                        product_name: '百事可乐'
+						id:'1',
+                        product_name: '酒水'
 
-                    }, {
-                        product_name: '可口可乐'
-
-                    },
-                    {
-                        product_name: '娃哈哈'
+                    },{
+						id:'2',
+                        product_name: '家用电器'
 
                     },
                     {
+						id:'3',
+                        product_name: '家具'
+
+                    },
+                    {
+						id:'4',
                         product_name: '茶派'
 
                     }
                 ],
-                search_text: ''
+                search_text: '',
+				idDetail:''
             }
         },
-
         methods: {
-            showModal() {
+     //        showModal() {
+					// // uni.reLaunch({
+					// // 	url: '../ucenter/dic_detail_add_or_update'
+					// // });
+					// uni.navigateTo({
+					// 	url: '../ucenter/dic_detail_add_or_update',
+					// 	success: res => {},
+					// 	fail: () => {},
+					// 	complete: () => {}
+					// });
 
-                this.modalName = '1';
-
-
-            },
+     //        },
             hideModal() {
                 this.modalName = '0';
             }
@@ -95,4 +110,6 @@
 </script>
 
 <style>
+
+
 </style>

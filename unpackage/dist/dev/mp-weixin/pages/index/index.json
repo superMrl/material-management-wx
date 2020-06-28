@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "星星进销存",
+  "navigationBarTitleText": "进销存",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "uni-segmented-control": "/components/uni-segmented-control/uni-segmented-control"

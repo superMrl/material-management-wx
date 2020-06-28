@@ -10,7 +10,7 @@
         {
             "path": "pages/login/login",
             "style": {
-                "navigationBarTitleText": "星星进销存系统登录"
+                "navigationBarTitleText": "进销存系统登录"
             }
         },
         {
@@ -21,7 +21,7 @@
         }, {
             "path": "pages/index/index",
             "style": {
-                "navigationBarTitleText": "星星进销存",
+                "navigationBarTitleText": "进销存",
                 "enablePullDownRefresh": true
             }
         }, {
@@ -77,14 +77,24 @@
                 "navigationBarTitleText": "帮助中心"
             }
         }, {
+            "path": "pages/ucenter/product",
+            "style": {
+                "navigationBarTitleText": "物资信息维护"
+            }
+        }, {
             "path": "pages/ucenter/dic",
             "style": {
-                "navigationBarTitleText": "基础数据"
+                "navigationBarTitleText": "字典信息维护"
             }
         }, {
             "path": "pages/ucenter/dic_detail",
             "style": {
                 "navigationBarTitleText": "详细数据"
+            }
+        }, {
+            "path": "pages/ucenter/dic_detail_add_or_update",
+            "style": {
+                "navigationBarTitleText": "修改字典数据"
             }
         }, {
             "path": "pages/ucenter/customer",

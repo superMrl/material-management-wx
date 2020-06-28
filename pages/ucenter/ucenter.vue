@@ -10,9 +10,13 @@
 						<view class="phone-number">当前用户:{{userinfo.user_nickname ? userinfo.user_nickname : "未设置昵称"}}</view>
 					</view>
 					<view class="box-bd">
-						<navigator url="dic" class="item">
+						<navigator url="product" class="item">
 							<view class="icon"><img src="../../static/user/product.png"></view>
-							<view class="text">基础数据</view>
+							<view class="text">物资维护</view>
+						</navigator>
+						<navigator url="dic" class="item">
+							<view class="icon"><img src="../../static/user/customer.png"></view>
+							<view class="text">字典维护</view>
 						</navigator>
 						<!-- <navigator url="customer" class="item">
 							<view class="icon"><img src="../../static/user/customer.png"></view>
