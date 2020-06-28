@@ -173,30 +173,23 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
 
   data: function data() {
     return {
-      bendi: false,
-      index: -1,
-      picker: [],
+      name: '',
       index2: -1,
       picker2: ['物资分类', '计量单位'],
-      index3: -1,
-      picker3: [],
-      index4: -1,
-      picker4: [],
-      index5: -1,
-      picker5: [],
       id: '',
       title: '新增' };
 
 
   },
   onLoad: function onLoad(e) {
-    console.log(e.id);
-    console.log(e != undefined);
-    if (e != null || e != '' || e != 'undefined' || e != undefined) {
+    if (e.id !== undefined) {
       this.id = e.id;
       this.title = '修改';
+      this.getList();
+      console.log(this.name);
     }
-    //this.loadPicker();		
+    //this.loadPicker();
+
   },
   methods: {
     formSubmit: function formSubmit(e) {
@@ -266,37 +259,30 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         } });
 
     },
-    PickerChange: function PickerChange(e) {
-      this.index = e.detail.value;
-    },
+
     PickerChange2: function PickerChange2(e) {
       this.index2 = e.detail.value;
     },
-    PickerChange3: function PickerChange3(e) {
-      this.index3 = e.detail.value;
-    },
-    PickerChange4: function PickerChange4(e) {
-      this.index4 = e.detail.value;
-    },
-    PickerChange5: function PickerChange5(e) {
-      this.index5 = e.detail.value;
-    },
-    loadPicker: function loadPicker() {var _this = this;
-      api.post({
-        url: 'wms/Product/create',
-        data: {
-          device_type: api.DeviceType },
 
-        success: function success(data) {
-          console.log(data);
-          if (data.code == 1) {
-            _this.picker = data.data.category;
-            _this.picker2 = data.data.unit;
-            _this.picker3 = data.data.storage;
-            _this.picker4 = data.data.location;
-            _this.picker5 = data.data.supplier;
-          }
-        } });
+    getList: function getList() {
+      // api.post({
+      // 	url: 'wms/Product/create',
+      // 	data: {
+      // 		device_type: api.DeviceType
+      // 	},
+      // 	success: data => {
+      // 		console.log(data);
+      // 		if (data.code == 1) {
+      // 			this.picker = data.data.category;
+      // 			this.picker2 = data.data.unit;
+      // 			this.picker3 = data.data.storage;
+      // 			this.picker4 = data.data.location;
+      // 			this.picker5 = data.data.supplier;
+      // 		}
+      // 	}
+      // });
+      debugger;
+      this.name = "酒水";
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

@@ -44,7 +44,7 @@
                         <view>{{item.product_name}}</view>
                     </view>
                     <view class="action">
-						 <navigator class="cu-tag round bg-green" :url="'dic_detail_add_or_update?id=' + item.id">
+						 <navigator class="cu-tag round bg-green" :url="`dic_detail_add_or_update?item=${item.id}`">
 							<view>编辑</view>
 						</navigator>
                         <view class="cu-tag round bg-red">删除</view>

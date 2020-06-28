@@ -9,7 +9,7 @@
 				</view>
 				<view class="cu-form-group ">
 					<view class="title">分类名称:<text class="text-red">*</text></view>
-					<input placeholder="分类名称" name="name"></input>					
+					<input placeholder="分类名称" name="name">{{name}}</input>					
 				</view>
 				
 				<view class="cu-form-group">
@@ -41,30 +41,23 @@
 		
 		data() {
 			return {
-				bendi:false,
-				index:-1,
-				picker: [],
+				name:'',
 				index2:-1,
 				picker2: ['物资分类','计量单位'],
-				index3:-1,
-				picker3: [],
-				index4:-1,
-				picker4: [],
-				index5:-1,
-				picker5: [],
 				id:'',
 				title:'新增'
 											
 			}
 		},
-		onLoad(e) {		
-			console.log(e.id)
-			console.log( e != undefined)
-			if(e != null || e != '' || e != 'undefined' || e != undefined){
+		onLoad(e) {	
+			if(e.id !== undefined){
 				this.id = e.id;
 				this.title = '修改'
+				this.getList();
+				console.log(this.name);
 			}
-			//this.loadPicker();		
+			//this.loadPicker();
+			
 		},
 		methods: {	
 			formSubmit(e){
@@ -134,38 +127,31 @@
 					}
 				});				
 			},
-			PickerChange(e) {
-				this.index = e.detail.value
-			},
+		
 			PickerChange2(e) {
 				this.index2 = e.detail.value
 			},
-			PickerChange3(e) {
-				this.index3 = e.detail.value;				
-			},
-			PickerChange4(e) {
-				this.index4 = e.detail.value;				
-			},
-			PickerChange5(e) {
-				this.index5 = e.detail.value;				
-			},
-			loadPicker: function() {
-				api.post({
-					url: 'wms/Product/create',
-					data: {
-						device_type: api.DeviceType
-					},
-					success: data => {
-						console.log(data);
-						if (data.code == 1) {
-							this.picker = data.data.category;
-							this.picker2 = data.data.unit;
-							this.picker3 = data.data.storage;
-							this.picker4 = data.data.location;
-							this.picker5 = data.data.supplier;
-						}
-					}
-				});
+			
+			getList: function() {
+				// api.post({
+				// 	url: 'wms/Product/create',
+				// 	data: {
+				// 		device_type: api.DeviceType
+				// 	},
+				// 	success: data => {
+				// 		console.log(data);
+				// 		if (data.code == 1) {
+				// 			this.picker = data.data.category;
+				// 			this.picker2 = data.data.unit;
+				// 			this.picker3 = data.data.storage;
+				// 			this.picker4 = data.data.location;
+				// 			this.picker5 = data.data.supplier;
+				// 		}
+				// 	}
+				// });
+				debugger
+				this.name = "酒水"
+				
 			}			
 		}
 	}
