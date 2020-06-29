@@ -4,29 +4,32 @@
 			<view class="card-menu cu-list menu">
 				<view class="cu-item ">
 					<view class="content">
-						<text class="text-orange cuIcon-roundrightfill"></text>添加产品类目
+						<text class="text-orange cuIcon-roundrightfill"></text>{{title}}
 					</view>
 				</view>
-				<view class="cu-form-group ">
+				<!-- <view class="cu-form-group ">
 					<view class="title">产品编号</view>
 					<input placeholder="产品编号（非必须，后台会自动生成）" name="sn"></input>
-					<!-- <button class='cu-btn bg-green shadow'>上传识别</button> -->
+					<button class='cu-btn bg-green shadow'>上传识别</button> 
 				</view>
+				 -->
 				<view class="cu-form-group ">
 					<view class="title">产品名称<text class="text-red">*</text></view>
-					<input placeholder="产品名称" name="name"></input>					
+					<input placeholder="产品名称" name="name" :value="materialName"></input>					
 				</view>
-				<view class="cu-form-group ">
+				<!-- <view class="cu-form-group ">
 					<view class="title">厂家编号</view>
 					<input placeholder="产品出厂编号（非必须，后台会自动生成）" name="cjsn"></input>
-					<!-- <button class='cu-btn bg-green shadow'>上传识别</button> -->
-				</view>
+					<button class='cu-btn bg-green shadow'>上传识别</button>
+				</view> -->
 				<view class="cu-form-group ">
-					<view class="title">内部编号</view>
-					<input placeholder="内部编号" name="nbsn"></input>					
-				</view>
+					<view class="title">生产厂家</view>
+					<input placeholder="生产厂家名称" name="cjsn"></input>
+					<!-- <button class='cu-btn bg-green shadow'>上传识别</button> -->
+				</view> 
+		
 				<view class="cu-form-group">
-					<view class="title">产品类别<text class="text-red">*</text></view>
+					<view class="title">物资分类<text class="text-red">*</text></view>
 					<picker @change="PickerChange" :value="index" :range="picker" name="category">
 						<view class="picker">
 							{{index>-1?picker[index]:'点击选择'}}
@@ -41,33 +44,37 @@
 						</view>
 					</picker>
 				</view>
-				<view class="cu-form-group">
+				<!-- <view class="cu-form-group">
 					<view class="title">仓库 <text class="text-red">*</text></view>
 					<picker @change="PickerChange3" :value="index3" :range="picker3" name="storage">
 						<view class="picker">
 							{{index3>-1?picker3[index3]:'点击选择'}}
 						</view>
 					</picker>
-				</view>
-				<view class="cu-form-group">
+				</view> -->
+				<!-- <view class="cu-form-group">
 					<view class="title">库位 <text class="text-red">*</text></view>
 					<picker @change="PickerChange4" :value="index4" :range="picker4" name="location">
 						<view class="picker">
 							{{index4>-1?picker4[index4]:'点击选择'}}
 						</view>
 					</picker>
-				</view>
-				<view class="cu-form-group">
+				</view> -->
+				<!-- <view class="cu-form-group">
 					<view class="title">供应商 <text class="text-red">*</text></view>
 					<picker @change="PickerChange5" :value="index5" :range="picker5" name="supplier">
 						<view class="picker">
 							{{index5>-1?picker5[index5]:'点击选择'}}
 						</view>
 					</picker>
-				</view>
+				</view> -->
+				<view class="cu-form-group ">
+					<view class="title">供应商</view>
+					<input placeholder="供应商名称" name="cjsn"></input>
+				</view> 
 				<view class="cu-form-group">
 					<view class="title">产品规格</view>
-					<input placeholder="产品规格" name="spec"></input>
+					<input placeholder="产品规格" name="spec" :value="produc_specfiction"></input>
 				</view>
 				<view class="cu-form-group">
 					<view class="title">产品价格<text class="text-red">*</text></view>
@@ -103,10 +110,23 @@
 				index4:-1,
 				picker4: [],
 				index5:-1,
-				picker5: [],							
+				picker5: [],
+				
+				title:'新增物资类目',
+				materialName:'',
+				produc_specfiction:''
 			}
 		},
-		onLoad(e) {		
+		onLoad(options) {	
+			let detail = JSON.parse(options.item);
+			console.log(detail.produc_specfiction)
+			if(detail.id !== undefined){
+				this.materialName = detail.product_name;
+				this.id = detail.id;
+				this.produc_specfiction = detail.produc_specfiction;
+				this.title = "修改物资类目";
+			}
+			//加载计量单位和物资分类
 			this.loadPicker();		
 		},
 		methods: {	
@@ -193,22 +213,22 @@
 				this.index5 = e.detail.value;				
 			},
 			loadPicker: function() {
-				api.post({
-					url: 'wms/Product/create',
-					data: {
-						device_type: api.DeviceType
-					},
-					success: data => {
-						console.log(data);
-						if (data.code == 1) {
-							this.picker = data.data.category;
-							this.picker2 = data.data.unit;
-							this.picker3 = data.data.storage;
-							this.picker4 = data.data.location;
-							this.picker5 = data.data.supplier;
-						}
-					}
-				});
+				// api.post({
+				// 	url: 'wms/Product/create',
+				// 	data: {
+				// 		device_type: api.DeviceType
+				// 	},
+				// 	success: data => {
+				// 		console.log(data);
+				// 		if (data.code == 1) {
+				// 			this.picker = data.data.category;
+				// 			this.picker2 = data.data.unit;
+				// 			this.picker3 = data.data.storage;
+				// 			this.picker4 = data.data.location;
+				// 			this.picker5 = data.data.supplier;
+				// 		}
+				// 	}
+				// });
 			}			
 		}
 	}

@@ -219,6 +219,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
 {
@@ -235,10 +242,23 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
       index4: -1,
       picker4: [],
       index5: -1,
-      picker5: [] };
+      picker5: [],
+
+      title: '新增物资类目',
+      materialName: '',
+      produc_specfiction: '' };
 
   },
-  onLoad: function onLoad(e) {
+  onLoad: function onLoad(options) {
+    var detail = JSON.parse(options.item);
+    console.log(detail.produc_specfiction);
+    if (detail.id !== undefined) {
+      this.materialName = detail.product_name;
+      this.id = detail.id;
+      this.produc_specfiction = detail.produc_specfiction;
+      this.title = "修改物资类目";
+    }
+    //加载计量单位和物资分类
     this.loadPicker();
   },
   methods: {
@@ -324,23 +344,23 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
     PickerChange5: function PickerChange5(e) {
       this.index5 = e.detail.value;
     },
-    loadPicker: function loadPicker() {var _this = this;
-      api.post({
-        url: 'wms/Product/create',
-        data: {
-          device_type: api.DeviceType },
-
-        success: function success(data) {
-          console.log(data);
-          if (data.code == 1) {
-            _this.picker = data.data.category;
-            _this.picker2 = data.data.unit;
-            _this.picker3 = data.data.storage;
-            _this.picker4 = data.data.location;
-            _this.picker5 = data.data.supplier;
-          }
-        } });
-
+    loadPicker: function loadPicker() {
+      // api.post({
+      // 	url: 'wms/Product/create',
+      // 	data: {
+      // 		device_type: api.DeviceType
+      // 	},
+      // 	success: data => {
+      // 		console.log(data);
+      // 		if (data.code == 1) {
+      // 			this.picker = data.data.category;
+      // 			this.picker2 = data.data.unit;
+      // 			this.picker3 = data.data.storage;
+      // 			this.picker4 = data.data.location;
+      // 			this.picker5 = data.data.supplier;
+      // 		}
+      // 	}
+      // });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

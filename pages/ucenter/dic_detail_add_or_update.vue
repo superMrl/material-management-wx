@@ -49,16 +49,12 @@
 				unit:''							
 			}
 		},
-		onLoad(options) {	
-			console.log(options)
-			console.log(options.item)
-			console.log(e.item.id === undefined)
-			if(e.item.id !== undefined){
-				this.id = e.item.id;
+		onLoad(options) {
+			let detail = JSON.parse(options.item);
+			if(detail.id !== undefined){
+				this.id = detail.id;
 				this.title = '修改'
 				this.getList();
-				console.log(this.name);
-				console.log(this.name);
 			}
 			//this.loadPicker();
 			
@@ -153,7 +149,6 @@
 				// 		}
 				// 	}
 				// });
-				debugger
 				this.name = "酒水";
 				this.index2 = 0
 				

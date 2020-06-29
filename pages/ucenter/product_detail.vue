@@ -20,9 +20,10 @@
 						<view>{{item.produc_specfiction}}</view>
                     </view>
                     <view class="action">
-						<navigator class="cu-tag round bg-green" @tap="editDeail(item)">
+						<!-- <navigator class="cu-tag round bg-green" @tap="editDeail">
 							<view >编辑</view>
-						</navigator>
+						</navigator> -->
+						<view  class="cu-tag round bg-green" @tap="editDeail(list[key])">编辑</view>
                         <view class="cu-tag round bg-red">删除</view>
                     </view>
                 
@@ -80,12 +81,11 @@
 					// });
 
      //        },
-			editDeail(item){
+			editDeail(e){
 				// uni.navigateTo({
 				// 	url :"../ucenter/dic_detail_add_or_update?item=" + encodeURIComponent(detail);
 				// });
-				debugger
-				let detail = JSON.stringify(item);
+				let detail = JSON.stringify(e);
 				console.log(detail)
 				uni.navigateTo({
 					url: "../ucenter/product?item=" + detail

@@ -44,7 +44,7 @@
                         <view>{{item.product_name}}</view>
                     </view>
                     <view class="action">
-						<navigator class="cu-tag round bg-green" @tap="editDeail(item)">
+						<navigator class="cu-tag round bg-green" @tap="editDeail(list[key])">
 							<view >编辑</view>
 						</navigator>
                         <view class="cu-tag round bg-red">删除</view>
@@ -101,12 +101,7 @@
 
      //        },
 			editDeail(item){
-				// uni.navigateTo({
-				// 	url :"../ucenter/dic_detail_add_or_update?item=" + encodeURIComponent(detail);
-				// });
-				debugger
 				let detail = JSON.stringify(item);
-				console.log(detail)
 				uni.navigateTo({
 					url: "../ucenter/dic_detail_add_or_update?item=" + detail
 				})

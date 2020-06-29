@@ -293,7 +293,7 @@ var _config = __webpack_require__(/*! utils/config.js */ 75); //
 //
 //
 //
-var api = __webpack_require__(/*! @/common/api.js */ 23);var tkiQrcode = function tkiQrcode() {Promise.all(/*! require.ensure | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then((function () {return resolve(__webpack_require__(/*! @/components/tki-qrcode/tki-qrcode.vue */ 182));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { tkiQrcode: tkiQrcode }, data: function data() {return { userinfo: "", avatar: "../../static/toux.jpg", version: '1.0.1', src: '', // 二维码生成后的图片地址或base64
+var api = __webpack_require__(/*! @/common/api.js */ 23);var tkiQrcode = function tkiQrcode() {Promise.all(/*! require.ensure | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then((function () {return resolve(__webpack_require__(/*! @/components/tki-qrcode/tki-qrcode.vue */ 188));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { tkiQrcode: tkiQrcode }, data: function data() {return { userinfo: "", avatar: "../../static/toux.jpg", version: '1.0.1', src: '', // 二维码生成后的图片地址或base64
       foreground: '#000000', // 前景色
       pdground: '#66ccff', // 角标色
       background: '#ffffff', shequ: {}, type: 0, val: '' };}, onLoad: function onLoad() {// if (this.islogin()) {
