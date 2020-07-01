@@ -13,11 +13,12 @@ var device_type = 'wxapp'
 
 var app = getApp();
 //var host = "http://www.wms.test";//替换为自己的域名,小程序需要https
-var host = "https://www.lbrcb.net/wms/public/";
+// var host = "https://www.lbrcb.net/wms/public/";
+var host = "http://localhost:9091/";
 
 module.exports = {	
 	HOST: host,
-	API_ROOT: host + '/api/',
+	API_ROOT: host,
 	DeviceType: device_type,
 	post(options) {
 		this.request(options);
@@ -48,7 +49,8 @@ module.exports = {
 			data: options.data,
 			method: options.method ? options.method : 'POST',
 			header: {
-				'Content-Type': 'application/x-www-form-urlencoded',
+                //默认使用json格式
+				'Content-Type': 'application/json;charset=UTF-8',
 				'XX-Token': token,
 				'XX-Device-Type': device_type,
 			},
