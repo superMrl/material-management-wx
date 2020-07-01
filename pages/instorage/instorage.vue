@@ -1,67 +1,113 @@
 <template>
 	<view class="padding-top">
-		<form class="" @submit="formSubmit">
+		<form class="" @submit="formSubmit" @reset="formReset">
 			<view class="card-menu cu-list menu">
 				<view class="cu-item ">
 					<view class="content">
-						<text class="text-orange cuIcon-roundrightfill"></text>产品入库
+						<text class="text-orange cuIcon-roundrightfill"></text>物资入库
 					</view>
 				</view>
+				<!-- 
 				<view class="cu-form-group ">
 					<view class="title">订单号<text class="text-red"></text></view>
 					<input placeholder="订单号（非必须，后台会自动生成）" name="sn"></input>
-					<!-- <button class='cu-btn bg-green shadow'>上传识别</button> -->
 				</view>
+				-->
 				<view class="cu-form-group">
 					<view class="title">入库类型<text class="text-red">*</text></view>
-					<picker @change="PickerChange" :value="index" :range="picker" name="type">
+					<picker @change="PickerChange" :value="picker[index]"  :range="picker" name="type">
 						<view class="picker">
 							{{index>-1?picker[index]:'点击选择'}}
 						</view>
 					</picker>
 				</view>
 				<view class="cu-form-group">
-					<view class="title">供应商 <text class="text-red">*</text></view>
-					<picker @change="PickerChange2" :value="index2" :range="picker2" name="supplier">
-						<view class="picker">
-							{{index2>-1?picker2[index2]:'点击选择'}}
-						</view>
-					</picker>
-				</view>
-				<view class="cu-form-group">
-					<view class="title">车牌号</view>
-					<input placeholder="请输入车牌号" name="car_no"></input>
-				</view>
-				<view class="cu-form-group">
-					<view class="title">载货清单号</view>
-					<input placeholder="载货清单号" name="detailed_no"></input>
-				</view>
-				<view class="cu-form-group">
-					<view class="title">板序号</view>
-					<input placeholder="板序号" name="ban_no"></input>
-				</view>
-				<view class="cu-form-group">
-					<view class="title">产品名称<text class="text-red">*</text></view>
-					<picker @change="PickerChange3" :value="index3" :range="picker3" name="product[0]">
+					<view class="title">物资名称<text class="text-red">*</text></view>
+					<picker @change="PickerChange3" :value="picker3[index3]" :range="picker3" name="materialName">
 						<view class="picker">
 							{{index3>-1?picker3[index3]:'点击选择'}}
 						</view>
 					</picker>
 				</view>
+				
 				<view class="cu-form-group">
+					<view class="title">规格</view>
+					<input placeholder="规格" name="specifiction" v-model="specifiction"></input>
+				</view>
+				
+				<view class="cu-form-group">
+					<view class="title">入库数量</view>
+					<input placeholder="入库数量" v-model="inAmount" name="inAmount"></input>
+				</view>
+				
+				<view class="cu-form-group">
+					<view class="title">供应商 <text class="text-red">*</text></view>
+					<picker @change="PickerChange2" :value="picker2[index2]" :range="picker2" name="supplier">
+						<view class="picker">
+							{{index2>-1?picker2[index2]:'点击选择'}}
+						</view>
+					</picker>
+				</view>
+				<!-- <view class="cu-form-group">
+					<view class="title">车牌号</view>
+					<input placeholder="请输入车牌号" name="car_no"></input>
+				</view> -->
+				<!-- <view class="cu-form-group">
+					<view class="title">载货清单号</view>
+					<input placeholder="载货清单号" name="detailed_no"></input>
+				</view> -->
+				<!-- <view class="cu-form-group">
+					<view class="title">板序号</view>
+					<input placeholder="板序号" name="ban_no"></input>
+				</view> -->
+				
+				<!-- <view class="cu-form-group">
 					<view class="title">入库数量<text class="text-red">*</text></view>
 					<input placeholder="入库数量" name="num[0]"></input>
-				</view>			
-				<view class="cu-form-group">
+				</view>		 -->	
+				<!-- <view class="cu-form-group">
 					<view class="title">备注信息</view>
 					<input placeholder="备注" name="desc"></input>
-				</view>
+				</view> -->
 
-				<view class="cu-form-group ">
-					<button class="cu-btn bg-blue shadow" form-type="submit">提交信息</button>
+				<view class="cu-form-group padding-top">
+					<button class="cu-btn bg-blue shadow" form-type="submit">添加</button>
+					 <button form-type="reset" style="display:none;">重置</button>\
+					<!-- <button class="cu-btn bg-blue shadow" @tap="addInfo">添加</button> -->
 				</view>
 			</view>
 			
+		</form>
+	
+		<form  @submit="itemSubmit">
+		<view class="main">
+			
+			<scroll-view id="scroll" scroll-y = "true" :style="{height:scrollHeight}">
+				<view class="cu-list menu card-menu margin-top-sm" >
+					<view class="cu-item"  v-for="(item,index) in logList" :key = "index">
+						<view class="content padding-tb-sm ">							
+							<view>物资名称：{{item.materialName}}</view>
+							<view>规格：{{item.specifiction}}</view>
+							<!-- <view class="text-gray ">
+								
+							</view> -->
+							<view class="text-gray ">
+								入库数量： {{item.inAmount}}
+							</view>
+							<view class="text-gray">供应商：{{item.supplier}}</view>
+						</view>
+						<view class="action">
+							   <button class="mini-btn" type="warn" size="mini" @tap="deleteItemDetail(index)">删除</button>
+						</view>
+						
+					</view>
+				</view>
+				</scroll-view>	
+				<view class="card-menu cu-list menu margin-top-sm">
+					<button class="cu-btn bg-blue shadow" form-type="submit">入库</button>
+				</view>
+		
+		</view>	
 		</form>
 	</view>
 </template>
@@ -75,10 +121,20 @@
 				index:-1,
 				picker: ['采购入库', '销售退货'],
 				index2:-1,
-				picker2: [],
+				picker2: ['红星','泸州','顺阳'],
 				index3:-1,
-				picker3: [],
-				user_id:''							
+				picker3: ['娃哈哈','小苹果','小橘子'],
+				user_id:'',
+				inAmount:'',
+				specifiction:'',
+				logList:[
+					{
+					    materialName:'红旗渠1',
+					    specifiction:'200',
+					    inAmount:'21',
+					    supplier:'小米集团' 
+					}
+				]
 			}
 		},
 		onLoad(e) {		
@@ -90,7 +146,12 @@
 			this.loadPicker();			
 		},
 		methods: {	
+			deleteItemDetail(index){
+				console.log("删除的索引为:"+index)
+				this.logList.splice(index,1);
+			},
 			formSubmit(e){
+				console.log(e);
 				var params = e.detail.value;
 				params.user_id = this.user_id;
 				console.log(params);
@@ -121,36 +182,52 @@
 					});
 					return false
 				}
-				api.post({
-					url: 'wms/Instorage/save',
-					data: {
-						sn          : params['sn'],
-						type 		: params['type'],
-						desc 		: params['desc'],						
-						supplier 	: params['supplier'],
-						car_no 		: params['car_no'],
-						ban_no 		: params['ban_no'],
-						detailed_no : params['detailed_no'],
-						num         : params['num[0]'],
-						product     : params['product[0]'],
-						user_id     : params['user_id'],
-						device_type : api.DeviceType
-					},
-					success: data => {
-						console.log(data);
-						if (data.code == 1) {
-							uni.reLaunch({
-							url:'../index/index'
-						})							
-						}
-					}
-				});				
+				this.logList.push(params);
+				console.log(this.logList[0]);
+				this.formReset(e);
+				//清空表单数据
+				// this.$refs.resrtBtn.$dispatch('Form', 'uni-form-reset', {
+				// 	type: 'reset'
+				// })
+				// api.post({
+				// 	url: 'wms/Instorage/save',
+				// 	data: {
+				// 		sn          : params['sn'],
+				// 		type 		: params['type'],
+				// 		desc 		: params['desc'],						
+				// 		supplier 	: params['supplier'],
+				// 		car_no 		: params['car_no'],
+				// 		ban_no 		: params['ban_no'],
+				// 		detailed_no : params['detailed_no'],
+				// 		num         : params['num[0]'],
+				// 		product     : params['product[0]'],
+				// 		user_id     : params['user_id'],
+				// 		device_type : api.DeviceType
+				// 	},
+				// 	success: data => {
+				// 		console.log(data);
+				// 		if (data.code == 1) {
+				// 			uni.reLaunch({
+				// 			url:'../index/index'
+				// 		})							
+				// 		}
+				// 	}
+				// });				
+			},
+			formReset: function(e) {
+				this.index = -1;
+				this.index2 = -1;
+				this.index3 = -1;
+				this.inAmount = '';
+				this.specifiction = '';
+			    console.log('清空数据')
 			},
 			PickerChange(e) {
 				this.index = e.detail.value
 			},
 			PickerChange2(e) {
-				this.index2 = e.detail.value
+				this.index2 = e.detail.value;
+				this.specifiction = '500ml'
 			},
 			PickerChange3(e) {
 				this.index3 = e.detail.value;				
