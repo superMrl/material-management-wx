@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniSegmentedControl: function() {
-    return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 181))
+    return __webpack_require__.e(/*! import() | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then(__webpack_require__.bind(null, /*! @/components/uni-segmented-control/uni-segmented-control.vue */ 180))
   }
 }
 var render = function() {
@@ -232,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-var api = __webpack_require__(/*! @/common/api.js */ 23);var uniSegmentedControl = function uniSegmentedControl() {__webpack_require__.e(/*! require.ensure | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then((function () {return resolve(__webpack_require__(/*! @/components/uni-segmented-control/uni-segmented-control.vue */ 181));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var api = __webpack_require__(/*! @/common/api.js */ 23);var uniSegmentedControl = function uniSegmentedControl() {__webpack_require__.e(/*! require.ensure | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then((function () {return resolve(__webpack_require__(/*! @/components/uni-segmented-control/uni-segmented-control.vue */ 180));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 {
   data: function data() {

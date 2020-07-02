@@ -79,9 +79,9 @@
 			
 		</form>
 	
-		<form  @submit="itemSubmit">
+		
 		<view class="main">
-			
+			<form  @submit="itemSubmit">
 			<scroll-view id="scroll" scroll-y = "true" :style="{height:scrollHeight}">
 				<view class="cu-list menu card-menu margin-top-sm" >
 					<view class="cu-item"  v-for="(item,index) in logList" :key = "index">
@@ -106,9 +106,9 @@
 				<view class="card-menu cu-list menu margin-top-sm">
 					<button class="cu-btn bg-blue shadow" form-type="submit">入库</button>
 				</view>
-		
+			</form>
 		</view>	
-		</form>
+		
 	</view>
 </template>
 
@@ -150,6 +150,40 @@
 				console.log("删除的索引为:"+index)
 				this.logList.splice(index,1);
 			},
+			itemSubmit(e){
+				this.loading = true;
+				api.post({
+					url: 'inStorageInfo/saveBatch',
+					data:JSON.stringify(this.logList) ,
+					success: data => {
+						if (data.code == '000') {
+							console.log(data);
+							this.loading = false;
+							//console.log(data);
+							uni.showToast({
+							    duration: 2500,
+							    icon: 'success',
+							    title: data.msg
+							});
+							setTimeout((e => {
+								uni.reLaunch({
+									url:'../index/index'
+								});
+							}), 2000);
+							
+						}else{
+							this.loading = false;
+							uni.showToast({
+							    duration: 500,
+							    icon: 'none',
+							    title: data.msg
+							});
+						}
+							
+					}
+				});	
+			},
+			
 			formSubmit(e){
 				console.log(e);
 				var params = e.detail.value;
@@ -185,35 +219,8 @@
 				this.logList.push(params);
 				console.log(this.logList[0]);
 				this.formReset(e);
-				//清空表单数据
-				// this.$refs.resrtBtn.$dispatch('Form', 'uni-form-reset', {
-				// 	type: 'reset'
-				// })
-				// api.post({
-				// 	url: 'wms/Instorage/save',
-				// 	data: {
-				// 		sn          : params['sn'],
-				// 		type 		: params['type'],
-				// 		desc 		: params['desc'],						
-				// 		supplier 	: params['supplier'],
-				// 		car_no 		: params['car_no'],
-				// 		ban_no 		: params['ban_no'],
-				// 		detailed_no : params['detailed_no'],
-				// 		num         : params['num[0]'],
-				// 		product     : params['product[0]'],
-				// 		user_id     : params['user_id'],
-				// 		device_type : api.DeviceType
-				// 	},
-				// 	success: data => {
-				// 		console.log(data);
-				// 		if (data.code == 1) {
-				// 			uni.reLaunch({
-				// 			url:'../index/index'
-				// 		})							
-				// 		}
-				// 	}
-				// });				
 			},
+			
 			formReset: function(e) {
 				this.index = -1;
 				this.index2 = -1;

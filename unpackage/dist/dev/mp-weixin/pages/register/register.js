@@ -144,6 +144,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
 {
@@ -153,23 +154,45 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
   data: function data() {
     return {
       loading: false,
-      username: "",
-      password: "",
-      repassword: "" };
+      user: {
+        userName: "",
+        telPhone: "",
+        userPassword: "",
+        reUserPassword: "" } };
+
 
   },
   methods: {
-    login: function login() {var _this = this;
+    register: function register() {var _this = this;
       this.loading = true;
-      if (this.username == '') {
+      if (this.user.userName == '') {
         uni.showToast({
           icon: 'none',
-          title: '请输入手机号或邮箱' });
+          title: '请输入用户名' });
 
         this.loading = false;
         return;
       }
-      if (this.password == '') {
+      if (this.user.telPhone == '') {
+        uni.showToast({
+          icon: 'none',
+          title: '请输入手机号' });
+
+        this.loading = false;
+        return;
+      } else {
+        //验证手机号先注释
+        // var reg = /^1[3456789]\d{9}$/;
+        // if (!reg.test(value)) {
+        //     uni.showToast({
+        //         icon: 'none',
+        //         title: '请输入有效的手机号码'
+        //     });
+        //     this.loading = false;
+        //     return;
+        // }
+      }
+      if (this.user.userPassword == '') {
         uni.showToast({
           icon: 'none',
           title: '请输入密码' });
@@ -177,7 +200,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         this.loading = false;
         return;
       }
-      if (this.repassword == '') {
+      if (this.user.reUserPassword == '') {
         uni.showToast({
           icon: 'none',
           title: '请再输入一次密码' });
@@ -185,7 +208,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         this.loading = false;
         return;
       }
-      if (this.password !== this.repassword) {
+      if (this.user.userPassword !== this.user.reUserPassword) {
         uni.showToast({
           icon: 'none',
           title: '两次密码输入不一致' });
@@ -194,16 +217,10 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         return;
       }
       api.post({
-        url: 'user/public/register',
-        data: {
-          username: this.username,
-          password: this.password,
-          repassword: this.repassword,
-          device_type: api.DeviceType },
-
+        url: 'user/register',
+        data: JSON.stringify(this.user),
         success: function success(data) {
-          //console.log(data);
-          if (data.code == 1) {
+          if (data.code == '000') {
             _this.loading = false;
             //console.log(data);
             uni.showToast({
@@ -211,20 +228,19 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
               icon: 'success',
               title: data.msg });
 
-            //强制页面重载，跳转到首页
+            //强制页面重载，跳转到登录页面
+            _this.user = {};
             uni.reLaunch({
-              url: '../index/index'
-              //url: '../grid/grid'
-            });
-            uni.setStorageSync('upload', 1);
-            uni.setStorageSync('login', 1);
-            uni.setStorageSync('token', data.data.token);
-            uni.setStorageSync('user', data.data.user);
+              url: '../login/login' });
+
+            // uni.setStorageSync('upload', 1)
+            // uni.setStorageSync('login', 1)
+            // uni.setStorageSync('token', data.data.token)
+            // uni.setStorageSync('user', data.data.user)
             setTimeout(function (e) {
               uni.navigateBack();
             }, 500);
-          }
-          if (data.code == 0) {
+          } else {
             _this.loading = false;
             uni.showToast({
               duration: 1500,

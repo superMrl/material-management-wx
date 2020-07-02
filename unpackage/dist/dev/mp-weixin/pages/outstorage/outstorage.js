@@ -202,48 +202,103 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
 {
-
   data: function data() {
     return {
       bendi: false,
       index: -1,
-      picker: ['销售出库', '采购退货'],
+      picker: ['采购出库', '销售退货'],
       index2: -1,
-      picker2: [],
+      picker2: ['红星', '泸州', '顺阳'],
       index3: -1,
-      picker3: [],
-      user_id: '' };
+      picker3: ['娃哈哈', '小苹果', '小橘子'],
+      user_id: '',
+      outAmount: '',
+      specifiction: '',
+      logList: [
+      {
+        materialName: '红旗渠1',
+        specifiction: '200',
+        outAmount: '21',
+        supplier: '小米集团' }] };
+
+
 
   },
   onLoad: function onLoad(e) {
     var user = uni.getStorageSync('user');
     if (user) {
-      console.log(user);
+      //console.log(user)
       this.user_id = user.id;
     }
     this.loadPicker();
-
   },
   methods: {
+    deleteItemDetail: function deleteItemDetail(index) {
+      console.log("删除的索引为:" + index);
+      this.logList.splice(index, 1);
+    },
     formSubmit: function formSubmit(e) {
+      console.log(e);
       var params = e.detail.value;
-      console.log(params);
-      params.customer = this.picker2[this.index2]; //获取选中picker2对应index的内容，而不是index本身
-      params.type = this.picker[this.index]; //默认type获取的picker的index值
-      params.product = this.picker3[this.index3];
       params.user_id = this.user_id;
+      console.log(params);
+      params.supplier = this.picker2[this.index2]; //获取选中picker2对应index的内容，而不是index本身
+      params.type = this.picker[this.index]; //默认type获取的picker的index值
+      params['product[0]'] = this.picker3[this.index3]; //注意这里不能携程params.product[0]，否则获取不到值								
       if (typeof params.type == 'undefined') {
         uni.showToast({
-          title: '出库类型不能为空',
+          title: '入库类型不能为空',
           duration: 1500,
           icon: "none" });
 
         return false;
       }
-      if (typeof params['product'] == 'undefined') {
+      if (typeof params['product[0]'] == 'undefined') {
         uni.showToast({
           title: '产品不能为空',
           duration: 1500,
@@ -251,7 +306,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
 
         return false;
       }
-      if (params['num'] == '') {
+      if (params['num[0]'] == '') {
         uni.showToast({
           title: '出库数量不能为空',
           duration: 1500,
@@ -259,81 +314,66 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
 
         return false;
       }
-      if (params['price'] == '') {
-        uni.showToast({
-          title: '价格不能为空',
-          duration: 1500,
-          icon: "none" });
-
-        return false;
-      }
-      api.post({
-        url: 'wms/Outstorage/checknum',
-        data: {
-          name: params.product,
-          device_type: api.DeviceType },
-
-        success: function success(data) {
-          console.log(data);
-          if (data.code == 1) {
-            if (params.num > data.data[0]) {
-              uni.showToast({
-                title: '出库数不能大于总库存数',
-                icon: "none",
-                duration: 1000 });
-
-              return false;
-            } else {
-              api.post({
-                url: 'wms/Outstorage/save',
-                data: {
-                  sn: params['sn'],
-                  type: params['type'],
-                  desc: params['desc'],
-                  customer: params['customer'],
-                  car_no: params['car_no'],
-                  ban_no: params['ban_no'],
-                  detailed_no: params['detailed_no'],
-                  product_sn: params['sn'],
-                  price: params['price'],
-                  product_name: params['product'],
-                  product_num: params['num'],
-                  user_id: params.user_id,
-                  device_type: api.DeviceType },
-
-                success: function success(data) {
-                  console.log(data);
-                  if (data.code == 1) {
-                    uni.reLaunch({
-                      url: '../index/index' });
-
-                  }
-                } });
-
-            }
-          }
-        } });
-
+      this.logList.push(params);
+      console.log(this.logList[0]);
+      this.formReset(e);
+      //清空表单数据
+      // this.$refs.resrtBtn.$dispatch('Form', 'uni-form-reset', {
+      // 	type: 'reset'
+      // })
+      // api.post({
+      // 	url: 'wms/Instorage/save',
+      // 	data: {
+      // 		sn          : params['sn'],
+      // 		type 		: params['type'],
+      // 		desc 		: params['desc'],						
+      // 		supplier 	: params['supplier'],
+      // 		car_no 		: params['car_no'],
+      // 		ban_no 		: params['ban_no'],
+      // 		detailed_no : params['detailed_no'],
+      // 		num         : params['num[0]'],
+      // 		product     : params['product[0]'],
+      // 		user_id     : params['user_id'],
+      // 		device_type : api.DeviceType
+      // 	},
+      // 	success: data => {
+      // 		console.log(data);
+      // 		if (data.code == 1) {
+      // 			uni.reLaunch({
+      // 			url:'../index/index'
+      // 		})							
+      // 		}
+      // 	}
+      // });				
+    },
+    formReset: function formReset(e) {
+      this.index = -1;
+      this.index2 = -1;
+      this.index3 = -1;
+      this.outAmount = '';
+      this.specifiction = '';
+      console.log('清空数据');
     },
     PickerChange: function PickerChange(e) {
       this.index = e.detail.value;
     },
     PickerChange2: function PickerChange2(e) {
       this.index2 = e.detail.value;
+      this.specifiction = '500ml';
     },
     PickerChange3: function PickerChange3(e) {
       this.index3 = e.detail.value;
     },
     loadPicker: function loadPicker() {var _this = this;
       api.post({
-        url: 'wms/Outstorage/create',
+        url: 'wms/Instorage/create',
         data: {
           device_type: api.DeviceType },
 
         success: function success(data) {
-          //console.log(data);
+          console.log(data);
           if (data.code == 1) {
-            _this.picker2 = data.data.customer;
+            _this.picker2 = data.data.supplier;
             _this.picker3 = data.data.product;
           }
         } });
