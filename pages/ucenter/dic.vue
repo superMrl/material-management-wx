@@ -2,9 +2,9 @@
     <view>
         <scroll-view id="scroll" scroll-y="true" :style="{height:scrollHeight}">
             <view class="cu-list menu card-menu margin-top-sm">
-                <navigator v-for="(item,key) in list" :key="key" class="cu-item" :url="'../ucenter/dic_detail?id=' + item.id">
+                <navigator v-for="(item,key) in list" :key="key" class="cu-item" :url="'../ucenter/dic_detail?type=' + item.type +'&dicTypeName='+item.name">
                     <view class="content padding-tb-sm">
-                        <view>{{item.dic_name}}</view>
+                        <view>{{item.name}}</view>
                     </view>
                     <view class="action">
                         <view class="cu-tag round bg-blue">详情</view>
@@ -29,23 +29,7 @@
                 showPicker: false,
                 searchType: ['订单号', '产品名称', '日期'],
                 scrollHeight: '',
-                list: [{
-                    id:1,
-                    dic_name: '品牌'
-                    
-                }, {
-                    id:2,
-                   dic_name: '计量单位'
-                },
-                {
-                    id:3,
-                    dic_name: '商品分类'
-                },
-                {
-                    id:4,
-                    dic_name: '库位'
-                }]
-                
+                list: []
             }
         },
         components: {
@@ -66,15 +50,27 @@
         },
         onLoad() {
             api.post({
-                url: 'wms/Search/index',
+                url: 'dict/type/list',
                 data: {
-                    device_type: api.DeviceType
+                    
                 },
-                success: data => {
-                    console.log(data);
-                    if (data.code == 1) {
-                        this.list = data.data;
+                success: res => {                 
+                    if (res.success == true) {
+                        this.list = res.data;
+                    }else{
+                       uni.showToast({
+                           duration: 1500,
+                           icon: 'none',
+                           title: res.msg
+                       }); 
                     }
+                },
+                fail: function(res) {
+                    uni.showToast({
+                        duration: 1500,
+                        icon: 'none',
+                        title: "服务连接失败"
+                    });
                 }
             });
         },

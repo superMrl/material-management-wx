@@ -1,56 +1,27 @@
 <template>
     <view>
         <view class="cu-bar bg-white margin-top">
-            <!-- <view class="action">
-                <text class="cuIcon-title text-orange "></text> 对话窗口
-            </view> -->
-			<navigator url="dic_detail_add_or_update">
-            <view class="action">
-                <button class="cu-btn round bg-green shadow">新增</button>
-            </view>
-			</navigator>
+
+            <navigator @tap="editDeail('')">
+                <view class="action">
+                    <button class="cu-btn round bg-green shadow">新增</button>
+                </view>
+            </navigator>
         </view>
-       <!-- <view class="cu-modal {modalName=='1'?'show':''}">
-            <view class="cu-dialog">
-                <view class="cu-bar round bg-white justify-end">
-                    <view class="content">新增</view>
-                    <view class="action" @tap="hideModal">
-                        <text class="cuIcon-close text-red"></text>
-                    </view>
-                </view>
-                <view class="padding-xl">
-                    <view class="cu-form-group">
-                        <view class="title">编码</view>
-                        <input placeholder="编码"></input>
-                    </view>
-                    <view class="cu-form-group">
-                        <view class="title">名称</view>
-                        <input placeholder="名称"></input>
-                    </view>
-                </view>
-                <view class="cu-bar bg-white justify-end">
-                    <view class="action">
-                        <button class="cu-btn round line-green text-green" @tap="hideModal">取消</button>
-                        <button class="cu-btn round bg-green margin-left" @tap="hideModal">确定</button>
-                    </view>
-                </view>
-            </view>
-        </view> -->
         <scroll-view id="scroll" scroll-y="true" :style="{height:scrollHeight}">
             <view class="cu-list menu card-menu margin-top-sm">
-				<view v-for="(item,key) in list" :key="id" class="cu-item">
-               
+                <view v-for="(item,key) in list" :key="id" class="cu-item">
                     <view class="content padding-tb-sm">
-                        <view>{{item.product_name}}</view>
+                        <view>{{item.name}}</view>
                     </view>
                     <view class="action">
-						<navigator class="cu-tag round bg-green" @tap="editDeail(list[key])">
-							<view >编辑</view>
-						</navigator>
-                        <view class="cu-tag round bg-red">删除</view>
+                        <navigator class="cu-tag round bg-green" @tap="editDeail(list[key])">
+                            <view>编辑</view>
+                        </navigator>
+                        <view class="cu-tag round bg-red" @tap="del(list[key])">删除</view>
                     </view>
-                
-				</view>
+
+                </view>
             </view>
         </scroll-view>
     </view>
@@ -59,56 +30,94 @@
 
 
 <script>
+    var api = require('@/common/api.js');
     export default {
         data() {
             return {
                 scrollHeight: '',
-                list: [{
-						id:'1',
-                        product_name: '酒水'
-
-                    },{
-						id:'2',
-                        product_name: '家用电器'
-
-                    },
-                    {
-						id:'3',
-                        product_name: '家具'
-
-                    },
-                    {
-						id:'4',
-                        product_name: '茶派'
-
-                    }
-                ],
+                list: [],
                 search_text: '',
-				idDetail:''
+                idDetail: '',
+                dicTypeName: '',
+                dicType: ''
+               
             }
         },
+        onShow() {
+            this.getList();
+        },
+        onLoad(options) {
+            this.dicTypeName = options.dicTypeName;
+            this.dicType = options.type;
+            this.getList();
+        },
         methods: {
-     //        showModal() {
-					// // uni.reLaunch({
-					// // 	url: '../ucenter/dic_detail_add_or_update'
-					// // });
-					// uni.navigateTo({
-					// 	url: '../ucenter/dic_detail_add_or_update',
-					// 	success: res => {},
-					// 	fail: () => {},
-					// 	complete: () => {}
-					// });
-
-     //        },
-			editDeail(item){
-				let detail = JSON.stringify(item);
-				uni.navigateTo({
-					url: "../ucenter/dic_detail_add_or_update?item=" + detail
-				})
-			},
+            editDeail(item) {
+                let detail = '';
+                if (item != '') {
+                    detail = JSON.stringify(item);
+                }
+                uni.navigateTo({
+                    url: "../ucenter/dic_detail_add_or_update?item=" + detail + "&dicTypeName=" + this.dicTypeName +
+                        "&dicType=" + this.dicType
+                })
+            },
             hideModal() {
                 this.modalName = '0';
+            },
+            getList() {                
+                api.post({
+                    url: 'dict/list',
+                    data: {
+                        type: this.dicType
+                    },
+                    success: res => {
+                        if (res.success == true) {
+                            this.list = res.data;
+                        } else {
+                            uni.showToast({
+                                duration: 1500,
+                                icon: 'none',
+                                title: res.msg
+                            });
+                        }
+                    },
+                    fail: function(res) {
+                        uni.showToast({
+                            duration: 1500,
+                            icon: 'none',
+                            title: "服务连接失败"
+                        });
+                    }
+                });
+            },
+            del(item){
+                api.post({
+                    url: 'dict/del',
+                    data: {
+                        id: item.id
+                    },
+                    success: res => {
+                        if (res.success == true) {
+                            this.getList();
+                        } else {
+                            uni.showToast({
+                                duration: 1500,
+                                icon: 'none',
+                                title: res.msg
+                            });
+                        }
+                    },
+                    fail: function(res) {
+                        uni.showToast({
+                            duration: 1500,
+                            icon: 'none',
+                            title: "服务连接失败"
+                        });
+                    }
+                });
             }
+
         }
 
 
