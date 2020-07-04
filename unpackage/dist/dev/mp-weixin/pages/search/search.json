@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "搜索",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "uni-calendar": "/components/uni-calendar/uni-calendar",
-    "mx-datepicker": "/components/mx-datepicker/mx-datepicker"
-  }
-}
