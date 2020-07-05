@@ -2,24 +2,25 @@
     <view>
         <view class="qiun-columns" id="report">
             <view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-                <view class="qiun-title-dot-light" style="text-align:center;font-size:12px;">一周出库量</view>
+                <view class="qiun-title-dot-light" style="text-align:center;font-size:12px;">一周出/入库量</view>
             </view>
             <view class="qiun-charts">
                 <canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
             </view>
         </view>
-        <view class="qiun-title-dot-light" style="text-align:center;font-size:12px;margin-top:10px;">库存(库存总值：{{total}}元)</view>
+        <view class="qiun-title-dot-light" style="text-align:center;font-size:12px;margin-top:8px;">库存(库存总值：{{total}}元)</view>
         <scroll-view id="scroll" scroll-y="true" :style="{height:scrollHeight}">
             <view class="cu-list menu card-menu margin-top-sm">
                 <view v-for="(item,key) in list" :key="key" class="cu-item" :url="'../detail/detail?id=' + item.id">
                     <view class="content padding-tb-sm">
                         <view>产品名称：{{item.name}}</view>
                         <view class="text-blue">
-                            库存数量：{{item.num}}
+                            库存数量：{{item.num}} {{item.unit}}
                         </view>
                         <view class="text-gray ">
                             入库单价：{{item.price}}
                         </view>
+						
                     </view>
                     <view class="action">
                         <template v-if="item.num<100">
@@ -49,24 +50,28 @@
                 serverData: '',
                 scrollHeight: '',
                 list: [{
-                        name: '黄金叶1',
+                        name: '黄金叶',
                         num: 200,
-                        price: 10
+                        price: 10,
+						unit:'箱'
                     },
                     {
-                        name: '黄金2',
+                        name: '黄金叶',
                         num: 100,
-                        price: 10
+                        price: 5,
+						unit:'条'
                     },
                     {
                         name: '黄金3',
                         num: 50,
-                        price: 10
+                        price: 10,
+						unit:'g'
                     },
                     {
-                        name: '黄金叶4',
+                        name: '黄金叶',
                         num: 270,
-                        price: 10
+                        price: 10,
+						unit:'包'
                     }
                 ],
                 total: '1000'

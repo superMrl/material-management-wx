@@ -9,7 +9,7 @@
                 </view>
                 <view class="cu-form-group uni-form-item uni-column">
                     <view class="title">{{dicTypeName}}<text class="text-red">*</text>:</view>
-                    <input name="name" :value="dict.name"></input>
+                    <input name="name" v-bind:placeholder="dicTypeName" :value="dict.name"></input>
                 </view>
 
                 <!-- <view class="cu-form-group">
