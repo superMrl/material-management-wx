@@ -146,7 +146,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-var api = __webpack_require__(/*! @/common/api.js */ 23);var MxDatepicker = function MxDatepicker() {__webpack_require__.e(/*! require.ensure | components/mx-datepicker/mx-datepicker */ "components/mx-datepicker/mx-datepicker").then((function () {return resolve(__webpack_require__(/*! @/components/mx-datepicker/mx-datepicker.vue */ 204));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniCalendar = function uniCalendar() {Promise.all(/*! require.ensure | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then((function () {return resolve(__webpack_require__(/*! @/components/uni-calendar/uni-calendar.vue */ 195));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var api = __webpack_require__(/*! @/common/api.js */ 31);var MxDatepicker = function MxDatepicker() {__webpack_require__.e(/*! require.ensure | components/mx-datepicker/mx-datepicker */ "components/mx-datepicker/mx-datepicker").then((function () {return resolve(__webpack_require__(/*! @/components/mx-datepicker/mx-datepicker.vue */ 204));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniCalendar = function uniCalendar() {Promise.all(/*! require.ensure | components/uni-calendar/uni-calendar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-calendar/uni-calendar")]).then((function () {return resolve(__webpack_require__(/*! @/components/uni-calendar/uni-calendar.vue */ 195));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 {
@@ -159,23 +159,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var MxDatepicker = func
       showPicker: false,
       searchType: ['订单号', '产品名称', '日期'],
       scrollHeight: '',
-      list: [{
-        id: 1,
-        dic_name: '品牌' },
-
-      {
-        id: 2,
-        dic_name: '计量单位' },
-
-      {
-        id: 3,
-        dic_name: '商品分类' },
-
-      {
-        id: 4,
-        dic_name: '库位' }] };
-
-
+      list: [] };
 
   },
   components: {
@@ -196,15 +180,27 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var MxDatepicker = func
   },
   onLoad: function onLoad() {var _this2 = this;
     api.post({
-      url: 'wms/Search/index',
-      data: {
-        device_type: api.DeviceType },
+      url: 'dict/type/list',
+      data: {},
 
-      success: function success(data) {
-        console.log(data);
-        if (data.code == 1) {
-          _this2.list = data.data;
+
+      success: function success(res) {
+        if (res.success == true) {
+          _this2.list = res.data;
+        } else {
+          uni.showToast({
+            duration: 1500,
+            icon: 'none',
+            title: res.msg });
+
         }
+      },
+      fail: function fail(res) {
+        uni.showToast({
+          duration: 1500,
+          icon: 'none',
+          title: "服务连接失败" });
+
       } });
 
   },

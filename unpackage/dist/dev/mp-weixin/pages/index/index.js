@@ -226,13 +226,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
-var api = __webpack_require__(/*! @/common/api.js */ 23);var uniSegmentedControl = function uniSegmentedControl() {__webpack_require__.e(/*! require.ensure | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then((function () {return resolve(__webpack_require__(/*! @/components/uni-segmented-control/uni-segmented-control.vue */ 180));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var api = __webpack_require__(/*! @/common/api.js */ 31);var uniSegmentedControl = function uniSegmentedControl() {__webpack_require__.e(/*! require.ensure | components/uni-segmented-control/uni-segmented-control */ "components/uni-segmented-control/uni-segmented-control").then((function () {return resolve(__webpack_require__(/*! @/components/uni-segmented-control/uni-segmented-control.vue */ 180));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 {
   data: function data() {
@@ -243,36 +238,15 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var uniSegmentedControl
       activeColor: '#66ccff',
       scrollHeight: '',
       today: {
-        totalinstorage: 900, //今日入库
-        totaloutstorage: 300, //今日出库
-        totalprofit: 10000 //今日利润
+        totalinstorage: 0, //今日入库
+        totaloutstorage: 0, //今日出库
+        totalprofit: 0 //今日利润
       },
       shequ: {},
-      logList: [{
-        product_name: '红旗渠1',
-        product_num: '200',
-        add_time: '2020-05-22',
-        state: 1,
-        supplier: '小米集团',
-        customer: '小王' },
-
-      {
-        product_name: '红旗渠2',
-        product_num: '200',
-        add_time: '2020-05-22',
-        state: 1,
-        supplier: '小米集团',
-        customer: '小王' },
-
-      {
-        product_name: '红旗渠3',
-        product_num: '200',
-        add_time: '2020-05-22',
-        state: 2,
-        supplier: '小米集团',
-        customer: '小王' }],
-
-
+      logList: [],
+      inStorageList: [],
+      outStorageList: [],
+      status: 1,
       token: '' };
 
   },
@@ -288,41 +262,99 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var uniSegmentedControl
       _this.scrollHeight = sH + 'px';
       // console.log(_this.scrollHeight);
     }).exec();
-    this.loadToday();
+    this.loadOutStrorageToday();
+    this.loadInStorageToday();
+
   },
   onLoad: function onLoad() {
     this.token = uni.getStorageSync('token');
     if (this.token) {
       console.log(this.token);
       console.log(api.DeviceType);
-      this.loadToday();
+      this.loadOutStrorageToday();
+      this.loadInStorageToday();
+      this.getSumPrice();
     } else {
       console.log('token没有');
     }
   },
   //下拉刷新
   onPullDownRefresh: function onPullDownRefresh() {
-    this.loadToday();
+    this.loadInStorageToday();
+    this.loadOutStrorageToday();
+    //获取入库金额  出库金额
+    this.getSumPrice();
     uni.stopPullDownRefresh();
   },
   methods: {
     /**
               * 加载今日数据
               */
-    loadToday: function loadToday() {
-      // api.post({
-      // 	url: 'wms/Index/index',
-      // 	data: {
-      // 		device_type: api.DeviceType
-      // 	},
-      // 	success: data => {
-      // 		//console.log(data);
-      // 		if (data.code == 1) {
-      // 			this.today = data.data
-      // 			this.getList(1)
-      // 		}
-      // 	}
-      // });
+    loadInStorageToday: function loadInStorageToday() {var _this2 = this;
+      console.log("加载入库信息");
+      this.loading = true;
+      var sumInstoragePrice = 0;
+      api.post({
+        url: 'inStorageInfo/selectTodayInStore',
+        success: function success(data) {
+          console.log(data);
+          if (data.code == '000') {
+            console.log(data.data);
+            _this2.loading = false;
+            _this2.inStorageList = data.data;
+            _this2.logList = data.data;
+            for (var i = 0; i < data.data.length; i++) {
+              console.log("循环遍历" + data.data[i].instorePrice);
+              sumInstoragePrice = sumInstoragePrice + parseFloat(data.data[i].instorePrice);
+            }
+            _this2.today.totalinstorage = sumInstoragePrice;
+          } else {
+            _this2.loading = false;
+            uni.showToast({
+              duration: 500,
+              icon: 'none',
+              title: data.msg });
+
+          }
+
+        } });
+
+    },
+    loadOutStrorageToday: function loadOutStrorageToday() {var _this3 = this;
+      console.log("加载出库信息");
+      this.loading = true;
+      var sumOutstoragePrice = 0;
+      api.post({
+        url: 'outStorageInfo/selectTodayOutStore',
+        success: function success(data) {
+          console.log(data);
+          if (data.code == '000') {
+            console.log(data.data);
+            _this3.loading = false;
+            _this3.outStorageList = data.data;
+            _this3.logList = data.data;
+            for (var i = 0; i < data.data.length; i++) {
+              sumOutstoragePrice = sumOutstoragePrice + parseFloat(data.data[i].outPrice);
+            }
+            _this3.today.totaloutstorage = sumOutstoragePrice;
+          } else {
+            _this3.loading = false;
+            uni.showToast({
+              duration: 500,
+              icon: 'none',
+              title: data.msg });
+
+          }
+
+        } });
+
+    },
+    //获取今日入库金额  今日出库金额
+    getSumPrice: function getSumPrice() {
+      console.log("循环遍历");
+      if (this.inStorageList.length != 0) {
+
+      }
     },
     instorage: function instorage() {
       uni.navigateTo({
@@ -340,8 +372,10 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var uniSegmentedControl
         this.current = index;
       }
       if (index === 0) {//入库记录
+        this.status = 1;
         this.getList(1);
       } else if (index === 1) {//出库记录
+        this.status = 2;
         this.getList(2);
       }
     },
@@ -350,18 +384,11 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var uniSegmentedControl
         */
     getList: function getList(type) {
       console.log(type);
-      // api.post({
-      // 	url: 'wms/Index/instoragelog',
-      // 	data: {						
-      // 		state:type,
-      // 		device_type: api.DeviceType
-      // 	},
-      // 	success: data => {
-      // 		console.log(data);
-      // 		this.logList = data.data;						
-      // 	}
-      // });
-      this.logList = data.data;
+      if (type === 1) {
+        this.loadInStorageToday();
+      } else if (type === 2) {
+        this.loadOutStrorageToday();
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

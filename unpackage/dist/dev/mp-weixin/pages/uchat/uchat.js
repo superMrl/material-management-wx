@@ -205,7 +205,7 @@ var _uCharts = _interopRequireDefault(__webpack_require__(/*! ../../components/u
 //
 //
 //
-var api = __webpack_require__(/*! @/common/api.js */ 23);var _self;var canvaColumn = null;var _default = { data: function data() {return { cWidth: '', cHeight: '', pixelRatio: 1, serverData: '', scrollHeight: '', list: [{ name: '黄金叶1', num: 200, price: 10 }, { name: '黄金2', num: 100, price: 10 }, { name: '黄金3', num: 50, price: 10 }, { name: '黄金叶4', num: 270, price: 10 }], total: '1000' };}, onReady: function onReady() {var _this = this;
+var api = __webpack_require__(/*! @/common/api.js */ 31);var _self;var canvaColumn = null;var _default = { data: function data() {return { cWidth: '', cHeight: '', pixelRatio: 1, serverData: '', scrollHeight: '', list: [{ name: '黄金叶1', num: 200, price: 10 }, { name: '黄金2', num: 100, price: 10 }, { name: '黄金3', num: 50, price: 10 }, { name: '黄金叶4', num: 270, price: 10 }], total: '1000' };}, onReady: function onReady() {var _this = this;
     var segmented = uni.createSelectorQuery().select("#report");
     var sysinfo = uni.getSystemInfoSync();
     var Height = sysinfo.windowHeight;

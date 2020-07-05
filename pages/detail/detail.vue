@@ -4,7 +4,7 @@
 			<view class="card-menu cu-list menu">
 				<view class="cu-item ">
 					<view class="content">
-						<text class="text-orange cuIcon-roundrightfill"></text>订单详细资料 <text class="text-gray text-sm padding-left-sm">更新时间：{{List.add_time}}</text>
+						<text class="text-orange cuIcon-roundrightfill"></text>订单详情
 					</view>
 				</view>
 			</view>
@@ -15,7 +15,7 @@
 						订单类型：
 					</view>
 					<view class="action">
-						{{List.type}}
+						入库
 					</view>
 				</view>
 				<view class="cu-item" >
@@ -61,7 +61,7 @@
 						订单类型：
 					</view>
 					<view class="action">
-						{{List.type}}
+						出库
 					</view>
 				</view>
 				<view class="cu-item" >

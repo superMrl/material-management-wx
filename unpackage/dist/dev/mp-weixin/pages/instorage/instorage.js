@@ -244,8 +244,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
-var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
+var api = __webpack_require__(/*! @/common/api.js */ 31);var _default =
 {
   data: function data() {
     return {
@@ -264,7 +267,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         materialName: '红旗渠1',
         specifiction: '200',
         inAmount: '21',
-        supplier: '小米集团' }] };
+        supplyerName: '小米集团' }] };
 
 
 
@@ -321,7 +324,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
       var params = e.detail.value;
       params.user_id = this.user_id;
       console.log(params);
-      params.supplier = this.picker2[this.index2]; //获取选中picker2对应index的内容，而不是index本身
+      params.supplyerName = this.picker2[this.index2]; //获取选中picker2对应index的内容，而不是index本身
       params.type = this.picker[this.index]; //默认type获取的picker的index值
       params['product[0]'] = this.picker3[this.index3]; //注意这里不能携程params.product[0]，否则获取不到值								
       if (typeof params.type == 'undefined') {
@@ -380,7 +383,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         success: function success(data) {
           console.log(data);
           if (data.code == 1) {
-            _this2.picker2 = data.data.supplier;
+            _this2.picker2 = data.data.supplyerName;
             _this2.picker3 = data.data.product;
           }
         } });

@@ -5,11 +5,11 @@
 		<view class="main">
 			<!--左侧小区名称 右侧新增登记-->
 			<view id="head1" class="flex justify-around margin-top-sm ">
-				<navigator url="supplierview" class="flex align-center">					
+				<navigator url="../ucenter/product_detail" class="flex align-center">					
 					<view class="cuIcon-peoplelist text-white" style="font-size: 50upx"></view>
 				</navigator>
 				<view></view><view></view><view></view><view></view>
-				<navigator url="customerview" class="flex align-center">
+				<navigator url="../ucenter/dic" class="flex align-center">
 					<view>
 						<view class="cuIcon-group text-white text-bold" style="font-size: 50upx"></view>
 					</view>
@@ -21,21 +21,21 @@
 	
 					<view class="flex justify-around text-df padding-top">
 						<text>今日出入库情况</text>
-						<text>（单位：单）</text>
+						<text>（单位：元）</text>
 					</view>
 					<view class="flex justify-around padding-top-xl">
 						<view class="flex flex-direction align-center">
-							<text class="text-orange text-bold">{{today.totalinstorage}}</text>
+							<text class="text-orange text-bold">{{today.totalinstorage}}元</text>
 							<text>今日入库</text>
 						</view>
 						<view class="flex flex-direction align-center">
-							<text class="text-orange text-bold">{{today.totaloutstorage}}</text>
+							<text class="text-orange text-bold">{{today.totaloutstorage}}元</text>
 							<text>今日出库</text>
 						</view>
-						<view class="flex flex-direction align-center">
+						<!-- <view class="flex flex-direction align-center">
 							<text class="text-orange text-bold">{{today.totalprofit}}元</text>
 							<text>今日利润</text>
-						</view>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -59,35 +59,30 @@
 				<view class="cu-list menu card-menu margin-top-sm" >
 					<navigator :url="'../detail/detail?id=' + item.id" class="cu-item" v-for="(item,key) in logList" :key = "key">
 						<view class="content padding-tb-sm">							
-							<view>产品名称：{{item.product_name}}</view>
-							<template v-if="item.state==1">
+							<view>产品名称：{{item.materialName}}</view>
+							<template v-if="status==1">
 							<view class="text-gray ">
-								入库数量： {{item.product_num}}
+								入库数量： {{item.inAmount}}
 							</view>
 							</template>
 							<template v-else>
 								<view class="text-gray ">
-									出库数量： {{item.product_num}}
+									出库数量： {{item.outAmount}}
 								</view>
 							</template>
-							<template v-if="item.state==1">
+							<template v-if="status==1">
 								<view class="text-gray ">
-									入库时间： {{item.add_time}}
+									入库时间： {{item.insertTime}}
 								</view>
 							</template>
 							<template v-else>
 								<view class="text-gray ">
-									出库时间： {{item.add_time}}
+									出库时间： {{item.outTime}}
 								</view>
 							</template>
 						</view>
 						<view class="action">
-							<template v-if="item.state==1">
-								<view class="cu-tag round bg-green">供应商：{{item.supplier}}</view>
-							</template>
-							<template v-else>
-								<view class="cu-tag round bg-green">客户：{{item.customer}}</view>
-							</template>
+							<view class="cu-tag round bg-green">供应商：{{item.supplyerName}}</view>
 						</view>
 					</navigator>
 				</view>
@@ -107,36 +102,15 @@
 				activeColor: '#66ccff',
 				scrollHeight: '',
 				today: {
-				    totalinstorage: 900, //今日入库
-				    totaloutstorage: 300, //今日出库
-				    totalprofit: 10000 //今日利润
+				    totalinstorage: 0, //今日入库
+				    totaloutstorage: 0, //今日出库
+				    totalprofit: 0 //今日利润
 				},
 				shequ: {},
-				logList: [{
-				    product_name:'红旗渠1',
-				    product_num:'200',
-				    add_time:'2020-05-22',
-				    state:1,
-				    supplier:'小米集团',
-				    customer:'小王' 
-				},
-				{
-				    product_name:'红旗渠2',
-				    product_num:'200',
-				    add_time:'2020-05-22',
-				    state:1,
-				    supplier:'小米集团',
-				    customer:'小王' 
-				},
-				{
-				    product_name:'红旗渠3',
-				    product_num:'200',
-				    add_time:'2020-05-22',
-				    state:2,
-				    supplier:'小米集团',
-				    customer:'小王' 
-				}
-				],
+				logList: [],
+				inStorageList:[],
+				outStorageList:[],
+				status:1,
 				token:''
 			}
 		},
@@ -152,42 +126,100 @@
 				_this.scrollHeight = sH+'px';
 				// console.log(_this.scrollHeight);
 			}).exec();
-			this.loadToday();			
+			this.loadOutStrorageToday();
+			this.loadInStorageToday();	
+			
 		},
 		onLoad() {			
 			this.token = uni.getStorageSync('token');
 			if(this.token){
 				console.log(this.token)
 				console.log(api.DeviceType)
-				this.loadToday();
+				this.loadOutStrorageToday();
+				this.loadInStorageToday();
+				this.getSumPrice();
 			}else{
 				console.log('token没有');
 			}						
 		},		
 		//下拉刷新
 		onPullDownRefresh() {			
-			this.loadToday()			
+			this.loadInStorageToday();	
+			this.loadOutStrorageToday();
+			//获取入库金额  出库金额
+			this.getSumPrice();
 			uni.stopPullDownRefresh();
 		},		
 		methods: {
 			/**
 			 * 加载今日数据
 			 */
-			loadToday: function() {
-				// api.post({
-				// 	url: 'wms/Index/index',
-				// 	data: {
-				// 		device_type: api.DeviceType
-				// 	},
-				// 	success: data => {
-				// 		//console.log(data);
-				// 		if (data.code == 1) {
-				// 			this.today = data.data
-				// 			this.getList(1)
-				// 		}
-				// 	}
-				// });
-			},			
+			loadInStorageToday: function() {
+				console.log("加载入库信息")
+				this.loading = true;
+				var sumInstoragePrice = 0;
+				api.post({
+					url: 'inStorageInfo/selectTodayInStore',
+					success: data => {
+						console.log(data)
+						if (data.code == '000') {
+							console.log(data.data);
+							this.loading = false;
+							this.inStorageList = data.data;
+							this.logList = data.data;
+							for (var i=0;i<data.data.length;i++) {
+								console.log("循环遍历"+data.data[i].instorePrice)
+								sumInstoragePrice = sumInstoragePrice + parseFloat(data.data[i].instorePrice)
+							}
+							this.today.totalinstorage = sumInstoragePrice;
+						}else{
+							this.loading = false;
+							uni.showToast({
+							    duration: 500,
+							    icon: 'none',
+							    title: data.msg
+							});
+						}
+							
+					}
+				});
+			},	
+			loadOutStrorageToday: function() {
+				console.log("加载出库信息")
+				this.loading = true;
+				var sumOutstoragePrice = 0;
+				api.post({
+					url: 'outStorageInfo/selectTodayOutStore',
+					success: data => {
+						console.log(data)
+						if (data.code == '000') {
+							console.log(data.data);
+							this.loading = false;
+							this.outStorageList = data.data;
+							this.logList = data.data;
+							for (var i=0;i<data.data.length;i++) {
+								sumOutstoragePrice = sumOutstoragePrice + parseFloat(data.data[i].outPrice)
+							}
+							this.today.totaloutstorage = sumOutstoragePrice;
+						}else{
+							this.loading = false;
+							uni.showToast({
+							    duration: 500,
+							    icon: 'none',
+							    title: data.msg
+							});
+						}
+							
+					}
+				});
+			},
+			//获取今日入库金额  今日出库金额
+			getSumPrice(){
+				console.log("循环遍历")
+				if(this.inStorageList.length != 0){
+					
+				}
+			},
 			instorage(){
 				uni.navigateTo({
 					url:'../instorage/instorage'
@@ -204,8 +236,10 @@
 					this.current = index
 				}
 				if(index === 0){//入库记录
+					this.status = 1;
 					this.getList(1)
 				}else if(index === 1){ //出库记录
+					this.status = 2;
 					this.getList(2)
 				}
 			},				
@@ -214,18 +248,11 @@
 			 */
 			getList(type){
 				console.log(type)
-				// api.post({
-				// 	url: 'wms/Index/instoragelog',
-				// 	data: {						
-				// 		state:type,
-				// 		device_type: api.DeviceType
-				// 	},
-				// 	success: data => {
-				// 		console.log(data);
-				// 		this.logList = data.data;						
-				// 	}
-				// });
-                this.logList = data.data;
+				if(type === 1){
+					this.loadInStorageToday();
+				}else if(type === 2){
+					this.loadOutStrorageToday();
+				}
 			}			
 		}
 	}

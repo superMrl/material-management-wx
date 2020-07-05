@@ -244,8 +244,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
-var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
+var api = __webpack_require__(/*! @/common/api.js */ 31);var _default =
 {
   data: function data() {
     return {
@@ -264,7 +267,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         materialName: '红旗渠1',
         specifiction: '200',
         outAmount: '21',
-        supplier: '小米集团' }] };
+        supplyerName: '小米集团' }] };
 
 
 
@@ -282,17 +285,51 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
       console.log("删除的索引为:" + index);
       this.logList.splice(index, 1);
     },
+    itemSubmit: function itemSubmit(e) {var _this = this;
+      this.loading = true;
+      api.post({
+        url: 'outStorageInfo/saveBatch',
+        data: JSON.stringify(this.logList),
+        success: function success(data) {
+          if (data.code == '000') {
+            console.log(data);
+            _this.loading = false;
+            //console.log(data);
+            uni.showToast({
+              duration: 2500,
+              icon: 'success',
+              title: data.msg });
+
+            setTimeout(function (e) {
+              uni.reLaunch({
+                url: '../index/index' });
+
+            }, 2000);
+
+          } else {
+            _this.loading = false;
+            uni.showToast({
+              duration: 500,
+              icon: 'none',
+              title: data.msg });
+
+          }
+
+        } });
+
+    },
+
     formSubmit: function formSubmit(e) {
       console.log(e);
       var params = e.detail.value;
       params.user_id = this.user_id;
       console.log(params);
-      params.supplier = this.picker2[this.index2]; //获取选中picker2对应index的内容，而不是index本身
+      params.supplyerName = this.picker2[this.index2]; //获取选中picker2对应index的内容，而不是index本身
       params.type = this.picker[this.index]; //默认type获取的picker的index值
       params['product[0]'] = this.picker3[this.index3]; //注意这里不能携程params.product[0]，否则获取不到值								
       if (typeof params.type == 'undefined') {
         uni.showToast({
-          title: '入库类型不能为空',
+          title: '出库类型不能为空',
           duration: 1500,
           icon: "none" });
 
@@ -317,40 +354,13 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
       this.logList.push(params);
       console.log(this.logList[0]);
       this.formReset(e);
-      //清空表单数据
-      // this.$refs.resrtBtn.$dispatch('Form', 'uni-form-reset', {
-      // 	type: 'reset'
-      // })
-      // api.post({
-      // 	url: 'wms/Instorage/save',
-      // 	data: {
-      // 		sn          : params['sn'],
-      // 		type 		: params['type'],
-      // 		desc 		: params['desc'],						
-      // 		supplier 	: params['supplier'],
-      // 		car_no 		: params['car_no'],
-      // 		ban_no 		: params['ban_no'],
-      // 		detailed_no : params['detailed_no'],
-      // 		num         : params['num[0]'],
-      // 		product     : params['product[0]'],
-      // 		user_id     : params['user_id'],
-      // 		device_type : api.DeviceType
-      // 	},
-      // 	success: data => {
-      // 		console.log(data);
-      // 		if (data.code == 1) {
-      // 			uni.reLaunch({
-      // 			url:'../index/index'
-      // 		})							
-      // 		}
-      // 	}
-      // });				
     },
+
     formReset: function formReset(e) {
       this.index = -1;
       this.index2 = -1;
       this.index3 = -1;
-      this.outAmount = '';
+      this.ouAmount = '';
       this.specifiction = '';
       console.log('清空数据');
     },
@@ -364,7 +374,7 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
     PickerChange3: function PickerChange3(e) {
       this.index3 = e.detail.value;
     },
-    loadPicker: function loadPicker() {var _this = this;
+    loadPicker: function loadPicker() {var _this2 = this;
       api.post({
         url: 'wms/Instorage/create',
         data: {
@@ -373,8 +383,8 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
         success: function success(data) {
           console.log(data);
           if (data.code == 1) {
-            _this.picker2 = data.data.supplier;
-            _this.picker3 = data.data.product;
+            _this2.picker2 = data.data.supplyerName;
+            _this2.picker3 = data.data.product;
           }
         } });
 

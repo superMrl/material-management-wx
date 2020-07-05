@@ -167,8 +167,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
-var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
+var api = __webpack_require__(/*! @/common/api.js */ 31);var _default =
 {
 
   data: function data() {
@@ -178,82 +179,79 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var _default =
       picker2: ['物资分类', '计量单位'],
       id: '',
       title: '新增',
-      unit: '' };
+      unit: '',
+      dict: '',
+      dicTypeName: '',
+      dicType: '' };
 
   },
   onLoad: function onLoad(options) {
-    var detail = JSON.parse(options.item);
+    console.log(options);
+    var detail = '';
+    if (options.item != '') {
+      detail = JSON.parse(options.item);
+    }
+
+    this.dicTypeName = options.dicTypeName;
+    this.dicType = options.dicType;
     if (detail.id !== undefined) {
       this.id = detail.id;
       this.title = '修改';
-      this.getList();
+      this.dict = detail;
     }
-    //this.loadPicker();
-
   },
   methods: {
-    formSubmit: function formSubmit(e) {
+    formSubmit: function formSubmit(e) {var _this = this;
       var params = e.detail.value;
       console.log(params);
-      params.category = this.picker[this.index]; //获取选中picker对应index的内容，而不是index本身
-      params.unit = this.picker2[this.index2];
-      params.storage = this.picker3[this.index3];
-      params.location = this.picker4[this.index4];
-      params.supplier = this.picker5[this.index5];
-      if (typeof params.category == 'undefined') {
-        uni.showToast({
-          title: '产品类别不能为空',
-          duration: 1500,
-          icon: "none" });
-
-        return false;
-      }
-      if (typeof params.unit == 'undefined') {
-        uni.showToast({
-          title: '产品单位不能为空',
-          duration: 1500,
-          icon: "none" });
-
-        return false;
-      }
+      // params.category = this.picker[this.index]; //获取选中picker对应index的内容，而不是index本身
+      // params.unit = this.picker2[this.index2];
+      // params.storage = this.picker3[this.index3];
+      // params.location = this.picker4[this.index4];
+      // params.supplier = this.picker5[this.index5];
+      // if (typeof(params.category) == 'undefined') {
+      //     uni.showToast({
+      //         title: '产品类别不能为空',
+      //         duration: 1500,
+      //         icon: "none"
+      //     });
+      //     return false
+      // }
+      // if (typeof(params.unit) == 'undefined') {
+      //     uni.showToast({
+      //         title: '产品单位不能为空',
+      //         duration: 1500,
+      //         icon: "none"
+      //     });
+      //     return false
+      // }
       if (params['name'] == '') {
         uni.showToast({
-          title: '产品名称不能为空',
-          duration: 1500,
-          icon: "none" });
-
-        return false;
-      }
-      if (params['price'] == '') {
-        uni.showToast({
-          title: '价格不能为空',
+          title: this.dicTypeName + '不能为空',
           duration: 1500,
           icon: "none" });
 
         return false;
       }
       api.post({
-        url: 'wms/Product/save',
+        url: 'dict/save',
         data: {
-          sn: params['sn'],
-          nbsn: params['nbsn'],
-          cjsn: params['cjsn'],
+          id: this.dict == '' ? '' : this.dict.id,
           name: params['name'],
-          category: params['category'],
-          storage: params['storage'],
-          location: params['location'],
-          unit: params['unit'],
-          supplier: params['supplier'],
-          spec: params['spec'],
-          price: params['price'],
-          desc: params['desc'],
-          device_type: api.DeviceType },
+          type: this.dict == '' ? this.dicType : this.dict.type },
 
-        success: function success(data) {
-          console.log(data);
-          if (data.code == 1) {
-            uni.reLaunch({
-              url: '../ucenter/ucenter' });
+        success: function success(res) {
+          if (res.success == true) {
+            uni.navigateBack({
+              delta: 1,
+              url: '../ucenter/dic_detail?type=' + _this.dicType + '&dicTypeName=' + _this.dicTypeName });
+
+
+          } else {
+            uni.showToast({
+              duration: 1500,
+              icon: 'none',
+              title: res.msg });
 
           }
         } });

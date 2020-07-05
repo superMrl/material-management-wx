@@ -219,6 +219,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
 var _config = __webpack_require__(/*! utils/config.js */ 75); //
 //
 //
@@ -293,7 +302,17 @@ var _config = __webpack_require__(/*! utils/config.js */ 75); //
 //
 //
 //
-var api = __webpack_require__(/*! @/common/api.js */ 23);var tkiQrcode = function tkiQrcode() {Promise.all(/*! require.ensure | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then((function () {return resolve(__webpack_require__(/*! @/components/tki-qrcode/tki-qrcode.vue */ 187));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { tkiQrcode: tkiQrcode }, data: function data() {return { userinfo: "", avatar: "../../static/toux.jpg", version: '1.0.1', src: '', // 二维码生成后的图片地址或base64
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var tkiQrcode = function tkiQrcode() {Promise.all(/*! require.ensure | components/tki-qrcode/tki-qrcode */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tki-qrcode/tki-qrcode")]).then((function () {return resolve(__webpack_require__(/*! @/components/tki-qrcode/tki-qrcode.vue */ 187));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var user = {};var _default = { components: { tkiQrcode: tkiQrcode }, data: function data() {return { userinfo: "", avatar: "../../static/toux.jpg", version: '1.0.1', src: '', // 二维码生成后的图片地址或base64
       foreground: '#000000', // 前景色
       pdground: '#66ccff', // 角标色
       background: '#ffffff', shequ: {}, type: 0, val: '' };}, onLoad: function onLoad() {// if (this.islogin()) {
@@ -301,9 +320,9 @@ var api = __webpack_require__(/*! @/common/api.js */ 23);var tkiQrcode = functio
     // 	console.log(this.userinfo)
     // } else {
     // 	console.log("未登录");
-    // }			
-    this.version = _config.version;this.shequ = uni.getStorageSync('shequ');this.type = uni.getStorageSync('type');this.val = "https://www.zgnnet.com/aliapp/shequ?id=" + uni.getStorageSync('shequ').shequ_id;}, methods: { qrR: function qrR(res) {this.src = res;}, setting: function setting() {if (this.islogin()) {uni.navigateTo({ url: '/pages/infomation/infomation' });}}, SelectShequ: function SelectShequ() {uni.$once('shequ_select', function (res) {var _this = this;if (res.type === 1) {post(that.ali_app + 'today_data', { id: res.shequ_id, type: 3 }).then(function (res) {uni.setStorageSync('shequ', res.data.shequ);_this.shequ = res.data.shequ;});}});uni.navigateTo({ url: '../index/shequ_list/shequ_list' });}, //注销
-    logout: function logout() {var that = this;uni.showModal({ title: '提示', content: '确定要退出登录？', success: function success(res) {if (res.confirm) {api.post({ url: 'user/public/logout', method: 'POST', success: function success(data) {uni.clearStorageSync();that.userinfo = ''; //强制页面重载，跳转到登录页
+    // }	
+    this.version = _config.version;this.shequ = uni.getStorageSync('shequ');this.type = uni.getStorageSync('type');this.val = "https://www.zgnnet.com/aliapp/shequ?id=" + uni.getStorageSync('shequ').shequ_id;this.user = uni.getStorageSync('user');console.log(this.user);}, methods: { qrR: function qrR(res) {this.src = res;}, setting: function setting() {if (this.islogin()) {uni.navigateTo({ url: '/pages/infomation/infomation' });}}, SelectShequ: function SelectShequ() {uni.$once('shequ_select', function (res) {var _this = this;if (res.type === 1) {post(that.ali_app + 'today_data', { id: res.shequ_id, type: 3 }).then(function (res) {uni.setStorageSync('shequ', res.data.shequ);_this.shequ = res.data.shequ;});}});uni.navigateTo({ url: '../index/shequ_list/shequ_list' });}, //注销
+    logout: function logout() {uni.showModal({ title: '提示', content: '确定要退出登录？', success: function success(res) {if (res.confirm) {uni.request({ url: 'http://localhost:9091/logout', data: { telPhone: user.telPhone }, method: 'POST', header: { 'Content-Type': 'application/json;charset=UTF-8' }, success: function success(res) {uni.clearStorageSync();user = {}; //强制页面重载，跳转到登录页
                 uni.reLaunch({ url: '../login/login' });} });} else if (res.cancel) {//console.log('用户点击取消')
           }} });} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

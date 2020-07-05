@@ -159,85 +159,93 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+
+var api = __webpack_require__(/*! @/common/api.js */ 31);var _default =
 {
   data: function data() {
     return {
       scrollHeight: '',
-      list: [{
-        id: '1',
-        product_name: '酒水' },
-
-      {
-        id: '2',
-        product_name: '家用电器' },
-
-
-      {
-        id: '3',
-        product_name: '家具' },
-
-
-      {
-        id: '4',
-        product_name: '茶派' }],
-
-
-
+      list: [],
       search_text: '',
-      idDetail: '' };
+      idDetail: '',
+      dicTypeName: '',
+      dicType: '' };
+
 
   },
+  onShow: function onShow() {
+    this.getList();
+  },
+  onLoad: function onLoad(options) {
+    this.dicTypeName = options.dicTypeName;
+    this.dicType = options.type;
+    this.getList();
+  },
   methods: {
-    //        showModal() {
-    // // uni.reLaunch({
-    // // 	url: '../ucenter/dic_detail_add_or_update'
-    // // });
-    // uni.navigateTo({
-    // 	url: '../ucenter/dic_detail_add_or_update',
-    // 	success: res => {},
-    // 	fail: () => {},
-    // 	complete: () => {}
-    // });
-
-    //        },
     editDeail: function editDeail(item) {
-      var detail = JSON.stringify(item);
+      var detail = '';
+      if (item != '') {
+        detail = JSON.stringify(item);
+      }
       uni.navigateTo({
-        url: "../ucenter/dic_detail_add_or_update?item=" + detail });
+        url: "../ucenter/dic_detail_add_or_update?item=" + detail + "&dicTypeName=" + this.dicTypeName +
+        "&dicType=" + this.dicType });
 
     },
     hideModal: function hideModal() {
       this.modalName = '0';
+    },
+    getList: function getList() {var _this = this;
+      api.post({
+        url: 'dict/list',
+        data: {
+          type: this.dicType },
+
+        success: function success(res) {
+          if (res.success == true) {
+            _this.list = res.data;
+          } else {
+            uni.showToast({
+              duration: 1500,
+              icon: 'none',
+              title: res.msg });
+
+          }
+        },
+        fail: function fail(res) {
+          uni.showToast({
+            duration: 1500,
+            icon: 'none',
+            title: "服务连接失败" });
+
+        } });
+
+    },
+    del: function del(item) {var _this2 = this;
+      api.post({
+        url: 'dict/del',
+        data: {
+          id: item.id },
+
+        success: function success(res) {
+          if (res.success == true) {
+            _this2.getList();
+          } else {
+            uni.showToast({
+              duration: 1500,
+              icon: 'none',
+              title: res.msg });
+
+          }
+        },
+        fail: function fail(res) {
+          uni.showToast({
+            duration: 1500,
+            icon: 'none',
+            title: "服务连接失败" });
+
+        } });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
